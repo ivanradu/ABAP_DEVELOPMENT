@@ -5,6 +5,7 @@
 const LCAPApplicationService = require('@sap/low-code-event-handler');
 const purchases_Logic = require('./code/purchases-logic');
 const redemptions_Logic = require('./code/redemptions-logic');
+const customers_Logic = require('./code/customers-logic');
 
 class my_new_projectSrv extends LCAPApplicationService {
     async init() {
@@ -17,6 +18,10 @@ class my_new_projectSrv extends LCAPApplicationService {
         this.on('CREATE', 'Redemptions', async (request, next) => {
             await redemptions_Logic(request);
             return next();
+        });
+
+        this.before('READ', 'Customers', async (request) => {
+            await customers_Logic(request);
         });
 
         return super.init();
